@@ -819,8 +819,7 @@ h1 span{color:var(--red);}
             </div>
           </div>
         </div>
-        <button class="reg-submit" onclick="showToast('✅ Registration submitted! We\'ll verify your details within 24 hours.')">Register & Get Verified</button>
-      </div>
+<button class="reg-submit" onclick="submitRegister()">Register & Get Verified</button>
     </div>
   </div>
 
@@ -1107,6 +1106,44 @@ function switchPTab(name,e){
   e.target.classList.add('active');
   var el=document.getElementById('ptab-'+name);
   if(el)el.classList.add('active');
+}
+
+// ===== REGISTER PAGE SUBMIT =====
+function submitRegister(){
+  // Collect all inputs from the register page form
+  var fields = document.querySelectorAll('#page-register input, #page-register select, #page-register textarea');
+  var allFilled = true;
+  var requiredFields = [];
+
+  // Check required fields (first few key ones)
+  var fullName = document.querySelector('#page-register input[placeholder="Your full name"]');
+  var phone = document.querySelector('#page-register input[type="tel"]');
+  var dob = document.querySelector('#page-register input[type="date"]');
+
+  if(fullName && !fullName.value.trim()){
+    fullName.style.borderColor='var(--red)';
+    allFilled = false;
+    setTimeout(function(){ fullName.style.borderColor=''; }, 2500);
+  }
+  if(phone && !phone.value.trim()){
+    phone.style.borderColor='var(--red)';
+    allFilled = false;
+    setTimeout(function(){ phone.style.borderColor=''; }, 2500);
+  }
+
+  if(!allFilled){
+    showToast('⚠️ Please fill in all required fields before registering.');
+    return;
+  }
+
+  // Simulate OTP / verification flow
+  showToast('✅ Registration submitted! OTP sent to your phone for verification.');
+
+  // Optionally redirect to home after a short delay
+  setTimeout(function(){
+    goToPage('home');
+    showToast('🎉 Welcome to BloodLink! Your profile is pending verification.');
+  }, 2000);
 }
 </script>
 </body>
